@@ -3,9 +3,21 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 
-export const SendForm: FC = () => {
+export type SendFormProps = {
+  onSubmit: (props: { url: string; method: string }) => void;
+};
+
+export const SendForm: FC<SendFormProps> = ({ onSubmit }) => {
   return (
-    <Form>
+    <Form
+      onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+        const input = form.querySelector("input")!;
+        const select = form.querySelector("select")!;
+        onSubmit({ url: input.value, method: select.value });
+      }}
+    >
       <InputGroup className="mb-4">
         <Form.Select
           size="lg"

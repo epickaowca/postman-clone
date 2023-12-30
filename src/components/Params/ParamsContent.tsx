@@ -6,14 +6,16 @@ import { ParamField } from "./ParamField";
 type ParamsContentProps = {
   fields: number[];
   setFields: React.Dispatch<React.SetStateAction<number[]>>;
+  innerRef: React.MutableRefObject<null>;
 };
 
 export const ParamsContent: FC<ParamsContentProps> = ({
   fields,
   setFields,
+  innerRef,
 }) => {
   return (
-    <TabContent className="p-3 border-top-0 border mt-0">
+    <TabContent ref={innerRef} className="p-3 border-top-0 border mt-0">
       {fields.map((param) => (
         <ParamField
           key={param}

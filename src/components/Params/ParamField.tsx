@@ -7,9 +7,11 @@ type ParamFieldProps = {
   onRemove: () => void;
 };
 
+export const PARAM_FIELD_CLASS = "paramField";
+
 export const ParamField: FC<ParamFieldProps> = ({ onRemove }) => {
   return (
-    <InputGroup className="mb-3">
+    <InputGroup className={`mb-3 ${PARAM_FIELD_CLASS}`}>
       <Form.Control size="lg" type="input" placeholder="Key" />
       <Form.Control size="lg" type="input" placeholder="Value" />
       <Button size="lg" variant="outline-danger" onClick={onRemove}>

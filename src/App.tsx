@@ -8,6 +8,7 @@ import { Response } from "./components/Response";
 const App: FC = () => {
   const [request, setRequest] = useState({ url: "", method: "" });
   const [response, setResponse] = useState<any>(null);
+  const [error, setError] = useState<any>(null);
 
   const sendFormHandler: SendFormProps["onSubmit"] = ({ url, method }) => {
     setRequest({ url, method });
@@ -28,9 +29,11 @@ const App: FC = () => {
       const headers = Object.entries(requestAxios.headers);
       const { data, status } = requestAxios;
       const size = JSON.stringify(data).length + JSON.stringify(headers).length;
+      setError(undefined);
       setResponse({ headers, data, info: { time, status, size } });
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      setResponse(undefined);
+      setError({ message: err.message, code: err.code });
     }
   };
 
@@ -39,12 +42,18 @@ const App: FC = () => {
       <Container className="mt-5 mb-5">
         <SendForm onSubmit={sendFormHandler} />
         <Params request={request} sendAllParams={getAllParams} />
-        {response && (
-          <Response
-            headersArr={response.headers}
-            responseBody={response.data}
-            info={response.info}
-          />
+
+        {error ? (
+          <Response type="error" code={error.code} message={error.message} />
+        ) : (
+          response && (
+            <Response
+              type="success"
+              headersArr={response.headers}
+              responseBody={response.data}
+              info={response.info}
+            />
+          )
         )}
       </Container>
     </>

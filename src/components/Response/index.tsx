@@ -9,6 +9,7 @@ import { UnControlled as CodeMirror } from "react-codemirror2";
 type ResponseProps = {
   headersArr: string[][];
   responseBody: any;
+  info: { status: string; time: string; size: string };
 };
 
 export const Response: FC<ResponseProps> = ({ headersArr, responseBody }) => {

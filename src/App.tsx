@@ -15,15 +15,20 @@ const App: FC = () => {
 
   const getAllParams = async (props: any) => {
     try {
+      const start = Date.now();
+
       const requestAxios = await axios({
         method: request.method,
         url: request.url,
         data: props.params,
         headers: props.headers,
       });
+      const finish = Date.now();
+      const time = (finish - start) / 1000;
       const headers = Object.entries(requestAxios.headers);
-      const { data } = requestAxios;
-      setResponse({ headers, data });
+      const { data, status } = requestAxios;
+      const size = JSON.stringify(data).length + JSON.stringify(headers).length;
+      setResponse({ headers, data, info: { time, status, size } });
     } catch (err) {
       console.log(err);
     }
@@ -38,6 +43,7 @@ const App: FC = () => {
           <Response
             headersArr={response.headers}
             responseBody={response.data}
+            info={response.info}
           />
         )}
       </Container>

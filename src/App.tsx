@@ -2,13 +2,14 @@ import { FC, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { SendForm, SendFormProps } from "./components/SendForm";
 import { Params } from "./components/Params";
-import axios from "axios";
 import { Response } from "./components/Response";
+import { postmanRequest } from "./services/request";
 
 const App: FC = () => {
   const [request, setRequest] = useState({ url: "", method: "" });
   const [response, setResponse] = useState<any>(null);
   const [error, setError] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const sendFormHandler: SendFormProps["onSubmit"] = ({ url, method }) => {
     setRequest({ url, method });
@@ -17,30 +18,33 @@ const App: FC = () => {
   const getAllParams = async (props: any) => {
     try {
       const start = Date.now();
-
-      const requestAxios = await axios({
+      setIsLoading(true);
+      const requestAxios = await postmanRequest({
         method: request.method,
         url: request.url,
-        data: props.params,
         headers: props.headers,
+        params: props.params,
       });
       const finish = Date.now();
       const time = (finish - start) / 1000;
       const headers = Object.entries(requestAxios.headers);
       const { data, status } = requestAxios;
       const size = JSON.stringify(data).length + JSON.stringify(headers).length;
+      console.log(data);
       setError(undefined);
       setResponse({ headers, data, info: { time, status, size } });
+      setIsLoading(false);
     } catch (err: any) {
       setResponse(undefined);
       setError({ message: err.message, code: err.code });
+      setIsLoading(false);
     }
   };
 
   return (
     <>
       <Container className="mt-5 mb-5">
-        <SendForm onSubmit={sendFormHandler} />
+        <SendForm isLoading={isLoading} onSubmit={sendFormHandler} />
         <Params request={request} sendAllParams={getAllParams} />
 
         {error ? (

@@ -5,9 +5,10 @@ import InputGroup from "react-bootstrap/InputGroup";
 
 export type SendFormProps = {
   onSubmit: (props: { url: string; method: string }) => void;
+  isLoading: boolean;
 };
 
-export const SendForm: FC<SendFormProps> = ({ onSubmit }) => {
+export const SendForm: FC<SendFormProps> = ({ onSubmit, isLoading }) => {
   return (
     <Form
       onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
@@ -22,7 +23,7 @@ export const SendForm: FC<SendFormProps> = ({ onSubmit }) => {
         <Form.Select
           size="lg"
           className="flex-grow-0 w-auto"
-          aria-label="Default select example"
+          aria-label="select "
           defaultValue="GET"
         >
           <option value="GET">GET</option>
@@ -36,7 +37,7 @@ export const SendForm: FC<SendFormProps> = ({ onSubmit }) => {
           type="input"
           placeholder="https://example.com"
         />
-        <Button size="lg" variant="primary" type="submit">
+        <Button disabled={isLoading} size="lg" variant="primary" type="submit">
           Submit
         </Button>
       </InputGroup>

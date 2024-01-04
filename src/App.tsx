@@ -30,7 +30,6 @@ const App: FC = () => {
       const headers = Object.entries(requestAxios.headers);
       const { data, status } = requestAxios;
       const size = JSON.stringify(data).length + JSON.stringify(headers).length;
-      console.log(data);
       setError(undefined);
       setResponse({ headers, data, info: { time, status, size } });
       setIsLoading(false);

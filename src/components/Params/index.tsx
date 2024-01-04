@@ -79,9 +79,6 @@ export const Params: FC<ParamsProps> = ({ sendAllParams, request }) => {
           setFields={setHeadersFields}
         />
       </Tab>
-      <Tab eventKey="contact" title="Contact">
-        Tab content for Contact
-      </Tab>
     </Tabs>
   );
 };

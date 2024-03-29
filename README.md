@@ -1,4 +1,4 @@
-<h1>Postman clone</h1>
+<h1>Postman Clone</h1>
 
 live: https://postman-clone-amber.vercel.app
 
